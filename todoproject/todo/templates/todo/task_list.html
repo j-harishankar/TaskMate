@@ -1,4 +1,5 @@
 <h2>My Todo-List</h2>
+<a href="{% url 'create' %}">+ Add New Task</a>
 <ul>
     {% for task in tasks %}
         <li>{{task.title}}<br>

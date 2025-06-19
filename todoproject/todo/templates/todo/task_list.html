@@ -5,7 +5,8 @@
         Created:{{task.created_at|date:"M d, Y H:i" }}<br>
         Completed: {{ task.completed }}
         </li>
-
+    {%empty%}
+        <li>No Tasks Yet!</li>
     {%endfor%}
 
 </ul>

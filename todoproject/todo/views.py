@@ -16,3 +16,9 @@ def create_task(request):
     else:
         form = TaskForm()
     return render(request, 'todo/create.html', {'form': form})
+
+def complete(request,task_id):
+    instance = Task.objects.get(id =task_id)
+    instance.completed = not instance.completed
+    instance.save()
+    return redirect('list')

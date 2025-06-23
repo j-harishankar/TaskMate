@@ -1,13 +1,44 @@
-<h2>My Todo-List</h2>
+<h2>My ToDo List</h2>
 <a href="{% url 'create' %}">+ Add New Task</a>
-<ul>
-    {% for task in tasks %}
-        <li>{{task.title}}<br>
-        Created:{{task.created_at|date:"M d, Y H:i" }}<br>
-        Completed: {{ task.completed }}
-        </li>
-    {%empty%}
-        <li>No Tasks Yet!</li>
-    {%endfor%}
 
-</ul>
+<style>
+    table {
+        width: 100%;
+        border-collapse:collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #5b5050;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #f2e9e9;
+    }
+    tr.completed {
+        background-color: #d4edda;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+            <tr class="{% if task.completed %}completed{% endif %}">
+                <td>{{ task.title }}</td>
+                <td>{{ task.created_at|date:"M d, Y H:i" }}</td>
+                <td>{{ task.completed }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No Tasks Yet!</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

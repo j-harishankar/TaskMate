@@ -12,7 +12,7 @@ def create_task(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('list')
+        return redirect('list')
     else:
         form = TaskForm()
     return render(request, 'todo/create.html', {'form': form})

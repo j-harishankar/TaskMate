@@ -1,8 +1,55 @@
-<h1>Create New Task</h1>
-<form method = 'POST' >
+<h1 class="text-4xl font-bold mb-6 text-center text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl inline-block px-6 py-3 shadow-lg max-w-fit mx-auto">Create New Task</h1>
+
+<form method='POST' class="max-w-md mx-auto bg-white/10 p-8 rounded-2xl backdrop-blur-md shadow-lg border border-white/20">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Create</button>
+    <div class="space-y-4">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="mt-4 w-full bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-white/20 transition">Create</button>
 </form>
 
-<a href="{% url 'list' %}">Back to List</a>
+<div class="text-center mt-6">
+    <a href="{% url 'list' %}" class="inline-block bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-4 py-2 text-white hover:bg-white/30 transition">
+        Back to List
+    </a>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        padding: 20px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 12px;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        backdrop-filter: blur(5px);
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    label {
+        font-weight: 500;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    button {
+        cursor: pointer;
+        font-weight: bold;
+        border: none;
+        backdrop-filter: blur(5px);
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

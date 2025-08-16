@@ -1,71 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My ToDo List</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        header a button {
+            margin: 0 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        header a button:hover {
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        tr.completed {
+            background: rgba(40, 167, 69, 0.3);
+            color: #d4edda;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        td[colspan="4"] {
+            padding: 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+<form method="post" action="{% url 'logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button style="background-color:#ff4b5c;color:white;">Logout</button>
+</form>
+
+        </a>
+        <a href="{% url 'create' %}">
+            <button style="background-color:#4CAF50;color:white;">+ Add New Task</button>
+        </a>
+    {% else %}
+        <a href="{% url 'login' %}">
+            <button style="background-color:#4CAF50;color:white;">Login</button>
+        </a>
+        <a href="{% url 'register' %}">
+            <button style="background-color:#ff4b5c;color:white;">Register</button>
+        </a>
+    {% endif %}
+</header>
+
 <h2 class="text-3xl font-bold mb-4 text-center">My ToDo List</h2>
-<a href="{% url 'create' %}" class="block text-center mb-6">
-    <button class="bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-6 py-2 text-white hover:bg-white/30 transition">
-        + Add New Task
-    </button>
-</a>
-
-<style>
-    body {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #fff;
-        padding: 20px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    th, td {
-        padding: 15px;
-        text-align: center;
-        color: #fff;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    th {
-        background: rgba(255, 255, 255, 0.1);
-        font-weight: 600;
-        font-size: 1rem;
-        text-transform: uppercase;
-    }
-
-    tr.completed {
-        background: rgba(40, 167, 69, 0.3);
-        color: #d4edda;
-    }
-
-    button {
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        border-radius: 12px;
-        padding: 8px 16px;
-        color: #fff;
-        cursor: pointer;
-        transition: background 0.3s, transform 0.2s;
-        backdrop-filter: blur(5px);
-    }
-
-    button:hover {
-        background: rgba(255, 255, 255, 0.35);
-        transform: translateY(-2px);
-    }
-
-    td[colspan="3"] {
-        padding: 20px;
-        font-size: 1.2rem;
-        color: #fff;
-        opacity: 0.8;
-    }
-</style>
 
 <table>
     <thead>
@@ -73,27 +121,36 @@
             <th>Title</th>
             <th>Created</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for task in tasks %}
-            <tr class="{% if task.completed %}completed{% endif %}">
-                <td>{{ task.title }}</td>
-                <td>{{ task.created_at|date:"M d, Y H:i" }}</td>
-                <td>
-                    <a href="{% url 'complete' task.id %}">
-                        {% if not task.completed %}
-                            <button>✅ Mark as Done</button>
-                        {% else %}
-                            <button>↩️ Undo</button>
-                        {% endif %}
-                    </a>
-                </td>
-            </tr>
+        <tr class="{% if task.completed %}completed{% endif %}">
+            <td>{{ task.title }}</td>
+            <td>{{ task.created_at|date:"M d, Y H:i" }}</td>
+            <td>
+                <a href="{% url 'complete' task.id %}">
+                    {% if not task.completed %}
+                        <button>✅ Mark as Done</button>
+                    {% else %}
+                        <button>↩️ Undo</button>
+                    {% endif %}
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'delete' task.id %}">
+                    <button style="background-color:red;color:white;">🗑 Delete</button>
+                </a>
+            </td>
+        </tr>
         {% empty %}
-            <tr>
-                <td colspan="3">No Tasks Yet!</td>
-            </tr>
+        <tr>
+            <td colspan="4">No Tasks Yet!</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
+
+</body>
+</html>
